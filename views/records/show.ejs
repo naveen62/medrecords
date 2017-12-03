@@ -1,0 +1,102 @@
+<% include ../partiles/header %>
+    <div class='container'>
+        <div class='view'>
+            <% if(flash.success && flash.success.length > 0) { %>
+                <div class='alert alert-info' role='alert'>
+                    <%=flash.success[0]%>
+                </div>
+            <% }%>
+            <h1><%=record.hospital%> hospital</h1>
+        <h3>Dr <%=record.doctor%></h3>
+        <h4>Final Diagnosis: <%=record.disease%></h4>
+        <h5>Tablets:</h5>
+        <ol>
+            <% record.tablets.forEach(function(tablet) { %>
+                <li><%= tablet %></li>
+            <% }) %>
+        </ol>
+        <h5>Blood test:</h5>
+        <ol>
+            <li>homoglobin: <%=record.bloodTest.hemoglobin%></li>
+            <li>TotalCount(WBC): <%=record.bloodTest.totalCount%></li>
+            <li>Platelets: <%=record.bloodTest.platelet%></li>
+        </ol>
+        <h2>Total Hospital Charge: ₹<%=record.totalCost%></h2>
+        <a href='#' class='btn btn-outline-warning' data-toggle="modal" data-target="#exampleModalLong">Edit</a>
+        <form action='/records/<%=record._id%>?_method=DELETE' method='POST' class='d-inline'>
+            <button type='submit' class='btn btn-outline-danger'>Delete</button>
+        </form>
+        </div>
+        <!--model-->
+             <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action='/records/<%=record._id%>?_method=PUT' method='POST'>
+            <div class='form-group'>
+                <label for='hospital'>Hospital Name:</label>
+                <input type='text' value='<%=record.hospital%>' name='hospital' id='hospital' required placeholder='enter hospital name' class='form-control'></input>
+            </div>
+            <div class='form-group'>
+                <label for='doctor'>Doctor Name:</label>
+                <input type='text' value='<%=record.doctor%>' name='doctor' id='doctor' required placeholder='enter doctor name' class='form-control'></input>
+            </div>
+             <div class='form-group'>
+                <label for='disease'>Disease Name:</label>
+                <input type='text' value='<%=record.disease%>' name='disease' id='disease' required placeholder='enter disease name' class='form-control'></input>
+            </div>
+            <span id='add'>
+            <!--<div class='form-group'>-->
+            <!--    <label for='tablets'>Tablets:</label>-->
+            <!--    <input type='text' name='tab[0].tab0' id='tablets' required placeholder='enter tablet name' class='form-control'></input>-->
+            <!--</div>-->
+            <label>Tablets:</label>
+            <% for(var i=0; i<(record.tablets).length; i++) { %>
+                <div class='form-group'>
+                    <input type='text' value='<%=record.tablets[i]%>' name='tab[<%=i%>].tab<%=i%>' required class='form-control'></input>
+                </div>
+            <% }%>
+            </span>
+            <input type='button' value='add tablet' class='btn btn-primary btn-block'></input>
+            <h5>Blood report</h5>
+            <div class='form-group'>
+                <label for='homoglobin'>Homoglobin:</label>
+                <input type='number'value='<%=record.bloodTest.hemoglobin%>' name='test[hemoglobin]' id='homoglobin' required placeholder='enter homoglobin' class='form-control'></input>
+            </div>
+            <div class='form-group'>
+                <label for='totalCount'>Total Count(WBC):</label>
+                <input type='number' value='<%=record.bloodTest.totalCount%>' name='test[totalCount]' id='totalCount' required placeholder='enter totalCount(WBC)' class='form-control'></input>
+            </div>
+            <div class='form-group'>
+                <label for='platelet'>Platelet Count:</label>
+                <input type='number' value='<%=record.bloodTest.platelet%>' name='test[platelet]' id='placeholder' required placeholder='enter platelet count' class='form-control'></input>
+            </div>
+            <div class='form-group'>
+                <label for='cost'>Total hospital cost:</label>
+                <input type='number' value='<%=record.totalCost%>' name='cost' id='cost' required placeholder='enter total cost' class='form-control'></input>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-success">Save</button>
+           </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!--model-->
+    </div>
+<script type="text/javascript">
+    var a = <%=(record.tablets).length%> - 1;
+    $('input[type="button"]').on('click', function() {
+        a = a +1;
+        $('#add').append("<div class='form-group'><input type='text' name='tab[" +a+ "].tab" +a+ "' id='tablets' required placeholder='enter tablet name' class='form-control'></div>")
+    })
+</script>
+<% include ../partiles/footer %>

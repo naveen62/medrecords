@@ -1,0 +1,90 @@
+<% include ../partiles/header %>
+<div class='container view'>
+     <% if(flash.success && flash.success.length > 0) { %>
+            <div class='alert alert-success' role='alert'>
+                <%=flash.success[0] %>
+            </div>
+        <% } %>
+    <div class='row'>
+    <% records.forEach(function(record) { %>        
+        <div class='col-md-4 col-sm-6'>
+              <div class='card dis'>
+                  <div class='card-body'>
+                      <h4 class='card-title'><%= record.hospital%> hospital</h4>
+                      <h5 class='card-title'>Dr <%= record.doctor%></h5>
+                      <h6 class='card-subtitle mb-2 text-muted'><%=record.disease%></h6>
+                      <a href='/records/<%= record._id%>' class='btn btn-primary'>View more</a>
+                  </div>
+              </div>
+        </div>
+    <% })  %>
+    <span data-toggle="modal" data-target="#exampleModalLong">
+        <a href='#' id='a'><i id='fa' class="fa fa-plus-circle" aria-hidden="true"></i><a>
+    </span>
+    </div>
+    <!--model-->
+    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action='/records/new' method='POST'>
+            <div class='form-group'>
+                <label for='hospital'>Hospital Name:</label>
+                <input type='text' name='hospital' id='hospital' required placeholder='enter hospital name' class='form-control'></input>
+            </div>
+            <div class='form-group'>
+                <label for='doctor'>Doctor Name:</label>
+                <input type='text' name='doctor' id='doctor' required placeholder='enter doctor name' class='form-control'></input>
+            </div>
+             <div class='form-group'>
+                <label for='disease'>Disease Name:</label>
+                <input type='text' name='disease' id='disease' required placeholder='enter disease name' class='form-control'></input>
+            </div>
+            <span id='add'>
+            <div class='form-group'>
+                <label for='tablets'>Tablets:</label>
+                <input type='text' name='tab[0].tab0' id='tablets' required placeholder='enter tablet name' class='form-control'></input>
+            </div>
+            </span>
+            <input type='button' value='add tablet' class='btn btn-primary btn-block'></input>
+            <h5>Blood report</h5>
+            <div class='form-group'>
+                <label for='homoglobin'>Homoglobin:</label>
+                <input type='number' name='test[hemoglobin]' id='homoglobin' required placeholder='enter homoglobin' class='form-control'></input>
+            </div>
+            <div class='form-group'>
+                <label for='totalCount'>Total Count(WBC):</label>
+                <input type='number' name='test[totalCount]' id='totalCount' required placeholder='enter totalCount(WBC)' class='form-control'></input>
+            </div>
+            <div class='form-group'>
+                <label for='platelet'>Platelet Count:</label>
+                <input type='number' name='test[platelet]' id='placeholder' required placeholder='enter platelet count' class='form-control'></input>
+            </div>
+            <div class='form-group'>
+                <label for='cost'>Total hospital cost:</label>
+                <input type='number' name='cost' id='cost' required placeholder='enter total cost' class='form-control'></input>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-success">Save</button>
+           </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<script type="text/javascript">
+    var a = 0;
+    $('input[type="button"]').on('click', function() {
+        a = a +1;
+        $('#add').append("<div class='form-group'><input type='text' name='tab[" +a+ "].tab" +a+ "' id='tablets' required placeholder='enter tablet name' class='form-control'></div>")
+    })
+</script>
+<% include ../partiles/footer %>

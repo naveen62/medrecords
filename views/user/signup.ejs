@@ -1,0 +1,24 @@
+<% include ../partiles/header %>
+<div class='container view'>
+    <div class='row'>
+        <div class='col-md-4 offset-md-4'>
+            <h2>Sign Up</h2>
+            <% if(flash.error && flash.error.length > 0) { %>
+                <div class='alert alert-danger' role='alert'>
+                    <%=flash.error[0]%>
+                </div>
+            <% }%>
+            <form action='/user/signup' method='POST'>
+                <div class='form-group'>
+                    <label for='email'>Email:</label>
+                    <input type='email' id='email' name='username' required placeholder='Enter email' class='form-control'></input>
+                    <label for='password'>Password:</label>
+                    <input type='password' id='password' name='password' required placeholder='Enter password' class='form-control'></input>
+                    <p></p>
+                    <button class='btn btn-outline-success btn-block'>Sign In</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<% include ../partiles/footer %>
